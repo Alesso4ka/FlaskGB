@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Articles list
+{% endblock %}
+
+{% block body %}
+<h1>Articles</h1>
+<div>
+    <ul>
+        {% if current_user.is_authenticated %}
+            {% for article in articles %}
+            <li>
+                <a href="{{ url_for('articles_app.details', article_id=article.id) }}">{{
+                    article.title }}</a>
+                by {{ article.author.user.username }}
+            </li>
+            {% endfor %}
+        {% else %}
+            <h1>You must be logged in to access for articles</h1>
+        {% endif %}
+    </ul>
+    <hr>
+    <a href="{{ url_for('articles_app.create') }}">Create new</a>
+</div>
+{% endblock %}
