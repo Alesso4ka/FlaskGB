@@ -1,2 +1,1 @@
-# FlaskGB
-For GB lesson about Flask
+# FlaskGB 07
