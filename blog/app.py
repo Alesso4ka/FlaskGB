@@ -13,23 +13,26 @@ from flask_migrate import Migrate
 
 cfg_name = "DevConfig"
 
-app = Flask(__name__)
-app.register_blueprint(users_app, url_prefix="/users")
-app.register_blueprint(articles_app, url_prefix="/articles")
-app.register_blueprint(auth_app, url_prefix="/auth")
-app.register_blueprint(authors_app, url_prefix="/authors")
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SECRET_KEY"] = "abcdefg123456"
-app.config.from_object(f"blog.configs.{cfg_name}")
+def create_app() -> Flask:
+    app = Flask(__name__)
+    app.register_blueprint(users_app, url_prefix="/users")
+    app.register_blueprint(articles_app, url_prefix="/articles")
+    app.register_blueprint(auth_app, url_prefix="/auth")
+    app.register_blueprint(authors_app, url_prefix="/authors")
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["SECRET_KEY"] = "abcdefg123456"
+    app.config.from_object(f"blog.configs.{cfg_name}")
 
-flask_bcrypt.init_app(app)
-db.init_app(app)
-login_manager.init_app(app)
-admin.init_app(app)
-init_api(app)
+    flask_bcrypt.init_app(app)
+    db.init_app(app)
+    login_manager.init_app(app)
+    admin.init_app(app)
+    init_api(app)
 
 
-migrate = Migrate(app, db, compare_type=True)
+    migrate = Migrate(app, db, compare_type=True)
+    return app
+
 
 
 @app.route("/")
