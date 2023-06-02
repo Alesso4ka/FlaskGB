@@ -32,6 +32,7 @@ init_api(app)
 migrate = Migrate(app, db, compare_type=True)
 
 
+
 @app.route("/")
 def index():
     return render_template("index.html")
